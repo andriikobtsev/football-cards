@@ -19,14 +19,14 @@ class App extends React.Component {
 
 	onSearchChange = (event) => {
 		this.setState({ searchField: event.target.value.toLowerCase() });
-	}
+	};
 
 	render() {
 		const filtered = this.state.data.filter(item => {
-			return  item.match.team1.name.toLowerCase().includes(this.state.searchField) || 
+			return  item.match.team1.name.toLowerCase().includes(this.state.searchField) ||
 					item.match.team2.name.toLowerCase().includes(this.state.searchField);
-		
-		})
+
+		});
 
 		return (
 		<div>
@@ -36,7 +36,7 @@ class App extends React.Component {
 			<Scroll>
 				<ErrorBoundry>
 					<MatchList data={filtered}/>
-				</ErrorBoundry>	
+				</ErrorBoundry>
 			</Scroll>
 		</div>
 		<div>

@@ -1,8 +1,7 @@
-import moment from 'moment';
-
-
-function convertTime(time) {
-	return moment(time, 'H:m').utcOffset('+0100').format('H:mm').toString();
+function convertTime(date, time, timezone) {
+    const dateString = `${date} ${time} ${timezone}`;
+    const local = new Date(dateString);
+    return local.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 }
 
 function getAllMatches(data) {
