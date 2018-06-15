@@ -12,12 +12,12 @@ const MatchCard = ({ id, team1, team2, date, time, score1, score2, timezone }) =
 			<div className="flex flex-row">
 				<div className="flex flex-column items-center">
 					<h2 className="calisto ttu fw2 pre">{team1}</h2>
-					<h3>{score1}</h3>
+					<h1>{score1}</h1>
 				</div>
 				<h2 className="ph2">:</h2>
 				<div className="flex flex-column items-center">
 					<h2 className="calisto ttu fw2 pre">{team2}</h2>
-					<h3>{score2}</h3>
+					<h1>{score2}</h1>
 				</div>
 			</div>
 		</div>

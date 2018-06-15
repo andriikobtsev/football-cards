@@ -1,50 +1,57 @@
 import React from 'react';
-import { MatchList, SearchBox, Scroll, ErrorBoundry } from '../components';
-import { getAllMatches } from '../utils';
+import {connect} from 'react-redux';
+import {MatchList, SearchBox, Scroll, ErrorBoundry} from '../components';
+import {requestData, setSearchField} from '../actions';
+
+const mapStateToProps = state => {
+    return {
+        searchField: state.searchCards.searchField,
+        data: state.requestData.data,
+        isPending: state.requestData.isPending,
+        error: state.requestData.error
+    }
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+        onRequestData: () => dispatch(requestData())
+    }
+};
 
 class App extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			data: [],
-			searchField: ''
-		};
-	}
+    componentDidMount() {
+        this.props.onRequestData();
+    }
 
-	componentDidMount() {
-		fetch('https://raw.githubusercontent.com/openfootball/world-cup.json/master/2018/worldcup.json')
-			.then(response => response.json())
-			.then(data => this.setState({ data: getAllMatches(data.rounds) }))
-	}
+    render() {
+        const {searchField, onSearchChange, data, isPending} = this.props;
+        const filtered = data.filter(item => {
+            return item.match.team1.name.toLowerCase().includes(searchField) ||
+                item.match.team2.name.toLowerCase().includes(searchField);
 
-	onSearchChange = (event) => {
-		this.setState({ searchField: event.target.value.toLowerCase() });
-	};
+        });
 
-	render() {
-		const filtered = this.state.data.filter(item => {
-			return  item.match.team1.name.toLowerCase().includes(this.state.searchField) ||
-					item.match.team2.name.toLowerCase().includes(this.state.searchField);
-
-		});
-
-		return (
-		<div>
-			<div className="flex flex-column items-center">
-			<h1 className = "flex justify-center avenir">Football Cards</h1>
-			<SearchBox searchChange={this.onSearchChange}/>
-			<Scroll>
-				<ErrorBoundry>
-					<MatchList data={filtered}/>
-				</ErrorBoundry>
-			</Scroll>
-		</div>
-		<div>
-			<p className="tr mr4">worldcup2018</p>
-		</div>
-		</div>
-	)
-	}
+        return isPending ?
+            <h1>Loading</h1>
+            :
+            (
+                <div>
+                    <div className="flex flex-column items-center">
+                        <h1 className="flex justify-center avenir">Football Cards</h1>
+                        <SearchBox searchChange={onSearchChange}/>
+                        <Scroll>
+                            <ErrorBoundry>
+                                <MatchList data={filtered}/>
+                            </ErrorBoundry>
+                        </Scroll>
+                    </div>
+                    <div>
+                        <p className="tr mr4">worldcup2018</p>
+                    </div>
+                </div>
+            )
+    }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);
