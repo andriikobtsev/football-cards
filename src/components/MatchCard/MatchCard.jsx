@@ -22,6 +22,6 @@ const MatchCard = ({ id, team1, team2, date, time, score1, score2, timezone }) =
 			</div>
 		</div>
 	)
-}
+};
 
 export default MatchCard;

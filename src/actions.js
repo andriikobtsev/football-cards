@@ -18,3 +18,11 @@ export const requestData = () => (dispatch) => {
         .then(data => dispatch({ type: REQUEST_DATA_SUCCESS, payload: getAllMatches(data.rounds) }))
         .catch(error => dispatch({ type: REQUEST_DATA_FAILED, payload: error }))
 };
+
+export const viewChange = (name) => (dispatch) => {
+    if(name) {
+        dispatch({type: 'CARD_VIEW', payload: name});
+    } else {
+        dispatch({ type: 'FEATURE_VIEW' })
+    }
+};

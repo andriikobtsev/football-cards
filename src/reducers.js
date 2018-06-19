@@ -15,6 +15,11 @@ const initialStateDate = {
     error: ''
 };
 
+const initialAppState = {
+    featureView: true,
+    card: ''
+};
+
 export const searchCards = (state = initialStateSearch, action = {}) => {
       switch(action.type) {
           case CHANGE_SEARCH_FIELD:
@@ -32,6 +37,17 @@ export const requestData = (state = initialStateDate, action = {}) => {
             return Object.assign({}, state, { data: action.payload, isPending: false });
         case REQUEST_DATA_FAILED:
             return Object.assign({}, state, { error: action.payload, isPending: false });
+        default:
+            return state;
+    }
+};
+
+export const viewChange = (state = initialAppState, action = {}) => {
+    switch (action.type) {
+        case 'CARD_VIEW':
+            return Object.assign({}, state, { card: action.payload, featureView: false });
+        case 'FEATURE_VIEW':
+            return Object.assign({}, state, { featureView: true });
         default:
             return state;
     }
